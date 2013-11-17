@@ -26,22 +26,39 @@ WjsGenerator.prototype.askFor = function () {
 
   console.log(this.yeoman);
 
-  var prompts = [{
-    name: "name",
-    message: "What do you want to call your application?",
+  var prompts = [
+    {
+      name: "name",
+      message: "What do you want to call your project?",
 
-    default: "test-wjs-application"
-  }];
+      default: "html5-canvas-playground"
+    },
+    {
+      name: "description",
+      message: "Description:",
 
-  this.prompt(prompts, function (props) {
-    this.name = props.name;
+      default: ""
+    },
+  ];
+
+  this.prompt(prompts, function (properties) {
+    this.name = properties.name;
+    this.description = properties.description;
+
+    this.year = (new Date()).getFullYear().toString();
 
     callback();
   }.bind(this));
 };
 
 WjsGenerator.prototype.app = function app() {
+  this.mkdir("css");
+  this.mkdir("js");
 
+  this.copy("css/main.css", "css/main.css");
+  this.copy("js/main.js", "js/main.js");
+
+  this.template("_index.html", "index.html");
 };
 
 WjsGenerator.prototype.projectfiles = function projectfiles() {

@@ -23,6 +23,12 @@ describe("wjs generator", function () {
       ".gitignore",
       ".jshintrc",
 
+      "css/main.css",
+      "js/main.js",
+
+      "index.html",
+
+      "License - MIT.md",
       "README.md"
     ];
 
@@ -38,14 +44,41 @@ describe("wjs generator", function () {
   });
 
   it("fills properly README file", function (done) {
-    var expected = "filling-README";
+    var expectedName = "filling-README",
+        expectedDescription = "Filling description inside readme file.";
 
-    helpers.mockPrompt(this.app, { "name": expected });
+    helpers.mockPrompt(this.app, {
+      "name": expectedName,
+      "description": expectedDescription
+    });
 
     this.app.options["skip-install"] = true;
 
     this.app.run({}, function () {
-      helpers.assertFile("README.md", new RegExp(expected, "i"));
+      helpers.assertFile("README.md", new RegExp(expectedName, "i"));
+      helpers.assertFile("README.md", new RegExp(expectedDescription, "i"));
+
+      done();
+    });
+  });
+
+  it("fills properly HTML file", function (done) {
+    var expectedName = "HtmlProjectName",
+        expectedDescription = "Sample Description",
+        expectedYear = (new Date()).getFullYear().toString();
+
+    helpers.mockPrompt(this.app, {
+      "name": expectedName,
+      "description": expectedDescription,
+      "year": expectedYear
+    });
+
+    this.app.options["skip-install"] = true;
+
+    this.app.run({}, function () {
+      helpers.assertFile("index.html", new RegExp(expectedName, "i"));
+      helpers.assertFile("index.html", new RegExp(expectedDescription, "i"));
+      helpers.assertFile("index.html", new RegExp(expectedYear, "i"));
 
       done();
     });
