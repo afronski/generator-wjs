@@ -59,6 +59,7 @@ WjsGenerator.prototype.app = function app() {
   this.copy("js/main.js", "js/main.js");
 
   this.template("_index.html", "index.html");
+  this.template("_package.json", "package.json");
 };
 
 WjsGenerator.prototype.projectfiles = function projectfiles() {

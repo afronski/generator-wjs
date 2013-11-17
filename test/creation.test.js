@@ -29,7 +29,9 @@ describe("wjs generator", function () {
       "index.html",
 
       "License - MIT.md",
-      "README.md"
+      "README.md",
+
+      "package.json"
     ];
 
     helpers.mockPrompt(this.app, { "name": "name-doesnt-matter" });
@@ -57,6 +59,25 @@ describe("wjs generator", function () {
     this.app.run({}, function () {
       helpers.assertFile("README.md", new RegExp(expectedName, "i"));
       helpers.assertFile("README.md", new RegExp(expectedDescription, "i"));
+
+      done();
+    });
+  });
+
+  it("fills properly package.json file", function (done) {
+    var expectedName = "filling-package-json",
+        expectedDescription = "Filling description inside package.json file.";
+
+    helpers.mockPrompt(this.app, {
+      "name": expectedName,
+      "description": expectedDescription
+    });
+
+    this.app.options["skip-install"] = true;
+
+    this.app.run({}, function () {
+      helpers.assertFile("package.json", new RegExp(expectedName, "i"));
+      helpers.assertFile("package.json", new RegExp(expectedDescription, "i"));
 
       done();
     });
